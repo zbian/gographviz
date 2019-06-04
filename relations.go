@@ -16,6 +16,7 @@ package gographviz
 
 import (
 	"sort"
+	"strings"
 )
 
 // Relations represents the relations between graphs and nodes.
@@ -55,10 +56,19 @@ func (relations *Relations) Remove(parent string, child string) {
 
 // SortedChildren returns a list of sorted children of the given parent graph.
 func (relations *Relations) SortedChildren(parent string) []string {
-	keys := make([]string, 0)
+	keys := []string{}
+	stickyKeywords := "node|edge|graph"
+	stickyKeys := []string{}
+
 	for key := range relations.ParentToChildren[parent] {
+		if strings.Contains(stickyKeywords, strings.ToLower(key)) {
+			stickyKeys = append(stickyKeys, key)
+		}
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
+	if len(stickyKeys) > 0 {
+		keys = append(stickyKeys, keys...)
+	}
 	return keys
 }

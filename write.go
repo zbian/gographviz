@@ -17,7 +17,7 @@ package gographviz
 import (
 	"fmt"
 
-	"github.com/awalterschulze/gographviz/ast"
+	"github.com/zbian/gographviz/ast"
 )
 
 type writer struct {
@@ -125,6 +125,13 @@ func (w *writer) Write() (*ast.Graph, error) {
 
 	t.StmtList = appendAttrs(t.StmtList, w.Attrs)
 
+	nodes := w.Nodes.Sorted()
+	for _, n := range nodes {
+		if _, ok := w.writtenLocations[n.Name]; !ok {
+			t.StmtList = append(t.StmtList, w.newNodeStmt(n.Name))
+		}
+	}
+
 	for _, edge := range w.Edges.Edges {
 		e, err := w.newEdgeStmt(edge)
 		if err != nil {
@@ -143,13 +150,6 @@ func (w *writer) Write() (*ast.Graph, error) {
 				}
 				t.StmtList = append(t.StmtList, s)
 			}
-		}
-	}
-
-	nodes := w.Nodes.Sorted()
-	for _, n := range nodes {
-		if _, ok := w.writtenLocations[n.Name]; !ok {
-			t.StmtList = append(t.StmtList, w.newNodeStmt(n.Name))
 		}
 	}
 

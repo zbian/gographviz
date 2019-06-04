@@ -160,7 +160,7 @@ _block_comment : '/' '*' { . | '*' } '*' '/' ;
 
 // ### [ Syntax ] ##############################################################
 
-<< import "github.com/awalterschulze/gographviz/ast" >>
+<< import "github.com/awalterschulze/zbian/ast" >>
 
 //graph	:	[ strict ] (graph | digraph) [ ID ] '{' stmt_list '}'
 DotGraph

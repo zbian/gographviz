@@ -18,7 +18,7 @@ import (
 	"testing"
 )
 
-// https://github.com/awalterschulze/gographviz/issues/26
+// https://github.com/zbian/gographviz/issues/26
 func TestIssue26DefaultAttrs(t *testing.T) {
 	inputString := `
 	digraph G {

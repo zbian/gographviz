@@ -19,7 +19,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/awalterschulze/gographviz/ast"
+	"github.com/zbian/gographviz/ast"
 )
 
 func check(t *testing.T, err error) {

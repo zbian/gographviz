@@ -17,6 +17,7 @@ package gographviz
 import (
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // Node represents a Node.
@@ -65,11 +66,20 @@ func (nodes *Nodes) Add(node *Node) {
 
 // Sorted returns a sorted list of nodes.
 func (nodes Nodes) Sorted() []*Node {
-	keys := make([]string, 0, len(nodes.Lookup))
+	keys := []string{}
+	stickyKeywords := "node|edge|graph"
+	stickyKeys := []string{}
+
 	for key := range nodes.Lookup {
+		if strings.Contains(stickyKeywords, strings.ToLower(key)) {
+			stickyKeys = append(stickyKeys, key)
+		}
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
+	if len(stickyKeys) > 0 {
+		keys = append(stickyKeys, keys...)
+	}
 	nodeList := make([]*Node, len(keys))
 	for i := range keys {
 		nodeList[i] = nodes.Lookup[keys[i]]
